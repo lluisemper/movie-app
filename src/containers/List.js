@@ -26,9 +26,12 @@ const handleSubmit = async(e) => {
     }
     const res = await fetch(`${API}&s=${search}`)
     const data = await res.json();
-    !data.Search ? 
-    setError('There are not result') :
+    if (!data.Search) {
+       return setError('There are not result')
+    } 
     setData(data.Search);
+    setError('');
+    setSearch('');
 
 }
 
@@ -39,7 +42,7 @@ return (
                 <form onSubmit={handleSubmit}>
                     <input 
                     type="text" className="form-control" placeholder="Search" 
-                    onChange={(e) => setSearch(e.target.value)} autoFocus>
+                    onChange={(e) => setSearch(e.target.value)} value={search} autoFocus>
                     </input>
                 </form>
                 <p className="text-white">{error ? error:''}</p>
