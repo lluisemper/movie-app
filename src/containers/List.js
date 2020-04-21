@@ -6,6 +6,7 @@ const List = () => {
 const [data, setData] = useState([]);
 const [search, setSearch] = useState('');
 const [error, setError] = useState('');
+const [loading, setLoading] = useState(true);
 
 
 const API = `http://www.omdbapi.com/?i=tt3896198&apikey=${process.env.REACT_APP_KEY}`
@@ -15,6 +16,7 @@ useEffect(() => {
     const res = await fetch(`${API}&s=batman`)
     const resJSON = await res.json()
     setData(resJSON.Search);
+    setLoading(false);
 }
    fetchData(); 
 }, [])
@@ -37,6 +39,8 @@ const handleSubmit = async(e) => {
 
 return (
     <div>
+        {loading ? <h3 className="text-light">Loading....</h3> :
+        <div>
         <div className="row">
             <div className="col-md-4 offset-md-4 p-4">
                 <form onSubmit={handleSubmit}>
@@ -53,6 +57,8 @@ return (
                 return <Card movie={movie} key={movie.imdbID}/>
             })}
         </div>
+        </div>
+        }
     </div>
 )
 
